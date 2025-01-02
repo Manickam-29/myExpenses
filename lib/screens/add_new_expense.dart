@@ -2,13 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:myexpenses/common_components/circular_elevated_button.dart';
 import 'package:myexpenses/common_components/common_bottom_sheet.dart';
+import 'package:myexpenses/common_components/common_calculation.dart';
 import 'package:myexpenses/common_components/common_color.dart';
 import 'package:myexpenses/common_components/common_header.dart';
 import 'package:myexpenses/common_components/common_padding.dart';
 import 'package:myexpenses/common_components/common_variables.dart';
 import 'package:myexpenses/common_components/custom_functions.dart';
+import 'package:myexpenses/common_components/custom_input_formatter.dart';
 import 'package:myexpenses/common_components/expense_display_card.dart';
 import 'package:myexpenses/common_components/textfield_comp.dart';
+import 'package:myexpenses/firebase_operation/insert_data.dart';
 
 class AddNewExpense extends StatefulWidget {
   const AddNewExpense({super.key});
@@ -32,10 +35,8 @@ class _AddNewExpenseState extends State<AddNewExpense> {
   }
 
   void setInitialValues() {
-    DateTime currentDate = DateTime.now();
     setState(() {
-      dateController.text =
-          "${currentDate.day}-${currentDate.month}-${currentDate.year}";
+      dateController.text = CustomFunctions().getCurrentDate();
       paymentController.text = paymentStrings[paymentIndex];
       typeController.text = expenseTypeString[typeIndex];
     });
@@ -50,7 +51,6 @@ class _AddNewExpenseState extends State<AddNewExpense> {
         children: [
           CommonPadding.topPadding20,
           CommonHeader(
-            needBackIcon: true,
             backIcon: FontAwesomeIcons.arrowLeft,
             backAction: () {
               Navigator.pushNamed(context, '/home');
@@ -114,7 +114,21 @@ class _AddNewExpenseState extends State<AddNewExpense> {
               FontAwesomeIcons.moneyBill1,
               color: black,
             ),
+            onChanged: (value) {
+              setState(() {
+                amountController.text = value;
+              });
+            },
+            inputFormatters: [CustomInputFormatter().allowOnlyLength(8)],
           ),
+          if (amountController.text.isNotEmpty)
+            Padding(
+              padding: const EdgeInsets.only(left: 32, right: 32),
+              child: Text(
+                CommonCalculations().numberToWords(amountController.text),
+                style: TextStyle(fontSize: 12, color: appColor),
+              ),
+            ),
           CommonPadding.topPadding20,
           if (amountController.text.isNotEmpty)
             ExpenseDisplayCard(
@@ -131,7 +145,21 @@ class _AddNewExpenseState extends State<AddNewExpense> {
                     paymentController.text.isNotEmpty &&
                     typeController.text.isNotEmpty &&
                     amountController.text.isNotEmpty
-                ? () {}
+                ? () async {
+                    Map<String, dynamic> data = {
+                      'amount': amountController.text,
+                      'mode': paymentController.text,
+                      'type': typeController.text
+                    };
+                    InsertData().insertNewExpense(data, dateController.text);
+
+                    setState(() {
+                      paymentIndex = 0;
+                      typeIndex = 0;
+                      amountController.clear();
+                    });
+                    setInitialValues();
+                  }
                 : null,
           ),
           CommonPadding.bottomPadding40

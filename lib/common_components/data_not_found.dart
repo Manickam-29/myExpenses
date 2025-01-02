@@ -12,7 +12,7 @@ class DataNotFound extends StatelessWidget {
     double width = GetScreenSize().getWidth(context);
     return Center(
       child: ImageComp()
-          .assetsImageByPath('lib/images/emptyData.gif', height * 0.8, width),
+          .assetsImageByPath('lib/images/emptyData.gif', height * 0.6, width),
     );
   }
 }

@@ -1,21 +1,22 @@
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:myexpenses/common_components/common_color.dart';
 
 import 'get_screen_size.dart';
 
 class CommonHeader extends StatefulWidget {
-  final bool needBackIcon;
   final IconData? backIcon;
   final Function()? backAction;
   final String headerText;
+  final IconData? nextIcon;
+  final Function()? nextAction;
 
   const CommonHeader(
       {super.key,
-      this.needBackIcon = false,
       this.backIcon,
       this.backAction,
-      required this.headerText});
+      required this.headerText,
+      this.nextIcon,
+      this.nextAction});
 
   @override
   State<CommonHeader> createState() => _CommonHeaderState();
@@ -24,7 +25,7 @@ class CommonHeader extends StatefulWidget {
 class _CommonHeaderState extends State<CommonHeader> {
   @override
   Widget build(BuildContext context) {
-    double height = GetScreenSize().getHeight(context);
+    GetScreenSize().getHeight(context);
     double width = GetScreenSize().getWidth(context);
     return Row(
       mainAxisAlignment: MainAxisAlignment.start, // Centering the row contents
@@ -45,6 +46,14 @@ class _CommonHeaderState extends State<CommonHeader> {
             fontWeight: FontWeight.bold,
             color: appColor, // Define the text color
             fontSize: 24, // Set font size
+          ),
+        ),
+        const Spacer(),
+        IconButton(
+          onPressed: widget.nextAction,
+          icon: Icon(
+            widget.nextIcon,
+            color: black, // Define the color of the icon
           ),
         ),
       ],

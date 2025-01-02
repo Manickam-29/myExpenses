@@ -27,8 +27,8 @@ class ExpenseDisplayCard extends StatefulWidget {
 class _ExpenseDisplayCardState extends State<ExpenseDisplayCard> {
   @override
   Widget build(BuildContext context) {
-    double height = GetScreenSize().getHeight(context);
-    double width = GetScreenSize().getWidth(context);
+    GetScreenSize().getHeight(context);
+    GetScreenSize().getWidth(context);
     return GFListTile(
         color: appColor,
         avatar: GFAvatar(

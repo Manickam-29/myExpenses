@@ -16,4 +16,8 @@ class CustomInputFormatter {
   TextInputFormatter allowOnlyDigits() {
     return FilteringTextInputFormatter.digitsOnly;
   }
+
+  TextInputFormatter allowOnlyLength(int length) {
+    return LengthLimitingTextInputFormatter(length);
+  }
 }

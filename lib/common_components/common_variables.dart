@@ -27,7 +27,8 @@ List<IconData> expenseTypeIcons = [
   FontAwesomeIcons.cartShopping,
   FontAwesomeIcons.userGraduate,
   FontAwesomeIcons.houseUser,
-  FontAwesomeIcons.piggyBank
+  FontAwesomeIcons.piggyBank,
+  FontAwesomeIcons.list
 ];
 
 List<String> expenseTypeString = [
@@ -39,4 +40,5 @@ List<String> expenseTypeString = [
   "Education",
   "Rent",
   "Savings",
+  "Others"
 ];

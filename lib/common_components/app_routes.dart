@@ -7,6 +7,6 @@ Map<String, WidgetBuilder> getAppRoutes() {
   return {
     '/loading': (context) => const LoadingScreen(),
     '/home': (context) => const HomeScreen(),
-    '/add' : (context) => const AddNewExpense()
+    '/add' : (context) => const AddNewExpense(),
   };
 }
